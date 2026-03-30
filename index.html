@@ -28,6 +28,11 @@
             box-sizing: border-box;
         }
 
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: var(--dark-bg);
             color: var(--text-main);
@@ -124,6 +129,8 @@
             border-radius: 4px;
             background: rgba(0, 255, 204, 0.05);
             transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
         }
         .init-btn:hover {
             border-color: var(--cyan);
@@ -207,9 +214,9 @@
             animation: fadeIn 1s 2.5s forwards;
         }
 
-        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        /* Terminal Container - Frosted Glass */
+        /* Terminal Container */
         .terminal-container {
             background: rgba(10, 10, 15, 0.7);
             border: 1px solid var(--border);
@@ -230,7 +237,6 @@
         }
         @keyframes terminalLoad { to { opacity: 1; transform: translateY(0); } }
 
-        /* Traffic Lights */
         .terminal-header {
             display: flex;
             gap: 8px;
@@ -241,8 +247,6 @@
         .dot.y { background: #ffbd2e; }
         .dot.g { background: #27c93f; }
 
-        /* Typing Logs */
-        @keyframes typingLog { from { width: 0; } to { width: 100%; } }
         .term-log {
             opacity: 0;
             margin-bottom: 7px;
@@ -254,8 +258,6 @@
         @keyframes fadeInLog { to { opacity: 1; } }
 
         .term-log span.cmd { color: var(--text-main); }
-        .term-log span.ok { color: var(--cyan); }
-        .term-log span.err { color: var(--blue); }
 
         .term-log:nth-child(2) { animation-delay: 4.0s; color: var(--text-main); animation: typingSteps 0.8s steps(15, end) 4.0s forwards; }
         .term-log:nth-child(3) { animation-delay: 4.8s; animation: typingSteps 0.5s steps(10, end) 4.8s forwards; }
@@ -278,9 +280,9 @@
         }
         @keyframes blinkCursor { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
 
-        /* Minimal Grid with Glass Hover */
+        /* Services Grid */
         .services {
-            padding: 0 5% 100px;
+            padding: 0 5% 50px;
             max-width: 1100px;
             margin: 0 auto;
         }
@@ -361,6 +363,70 @@
             text-shadow: 0 0 10px var(--glow-cyan);
         }
 
+        /* NEW: Contact Form Terminal Section */
+        .contact-section {
+            padding: 80px 5% 100px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            font-family: var(--mono);
+            letter-spacing: -1px;
+        }
+
+        .form-terminal {
+            background: rgba(10, 10, 15, 0.7);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .form-terminal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: var(--gradient-primary);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-family: var(--mono);
+            color: var(--cyan);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .input-group input, .input-group textarea {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a35;
+            color: var(--text-main);
+            padding: 14px;
+            border-radius: 4px;
+            font-family: var(--sans);
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.1);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
         footer {
             text-align: center;
             padding: 2.5rem;
@@ -419,13 +485,42 @@
             <div class="card">
                 <h3>02 // Embedded IoT</h3>
                 <p>Advanced microcontroller programming, smart sensor arrays, and scalable mesh IoT networks.</p>
-                <a href="#" class="card-link">Connect to Device -></a>
+                <a href="#contact" class="card-link">Connect to Device -></a>
             </div>
             <div class="card">
                 <h3>03 // Backend Systems</h3>
                 <p>Distributed server architectures, RESTful & gRPC APIs, and full-stack software development.</p>
-                <a href="#" class="card-link">Initialize Source -></a>
+                <a href="#contact" class="card-link">Initialize Source -></a>
             </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <h2 class="contact-title"><span style="color: var(--cyan);">//</span> INITIATE_TRANSMISSION</h2>
+        
+        <div class="form-terminal">
+            <div class="terminal-header" style="margin-bottom: 25px;">
+                <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+                <span style="margin-left: 10px; font-size: 0.8rem; color: var(--text-muted); font-family: var(--mono);">secure_channel.exe</span>
+            </div>
+            
+            <form action="mailto:info@omnislabs.online" method="post" enctype="text/plain">
+                <div class="input-group">
+                    <label>> root@client: enter_name_</label>
+                    <input type="text" placeholder="e.g. John Doe" required>
+                </div>
+                <div class="input-group">
+                    <label>> root@client: enter_email_</label>
+                    <input type="email" placeholder="e.g. john@company.com" required>
+                </div>
+                <div class="input-group">
+                    <label>> root@client: enter_project_details_</label>
+                    <textarea rows="5" placeholder="Describe your requirement..." required></textarea>
+                </div>
+                <button type="submit" class="init-btn" style="width: 100%; margin-top: 15px; font-family: var(--mono); font-weight: bold; font-size: 1rem; padding: 15px;">
+                    [ EXECUTE_SEND ]
+                </button>
+            </form>
         </div>
     </section>
 
