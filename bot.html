@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omnis Labs | Bot Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cyan: #00ffcc;
+            --blue: #0088ff;
+            --gradient-primary: linear-gradient(135deg, var(--cyan) 0%, var(--blue) 100%);
+            --glow-cyan: rgba(0, 255, 204, 0.4);
+            --dark-bg: #030305;
+            --panel-bg: rgba(10, 10, 15, 0.6);
+            --border: #1a1a20;
+            --text-main: #f0f0f0;
+            --text-muted: #80808a;
+            --mono: 'Fira Code', 'Courier New', Courier, monospace;
+            --sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            font-family: var(--sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Subtle Cyber Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image:
+                linear-gradient(rgba(0, 255, 204, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Pulse Nodes */
+        @keyframes gridPulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.6; } }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image:
+                radial-gradient(var(--glow-cyan) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center center;
+            z-index: -1;
+            animation: gridPulse 8s infinite;
+        }
+
+        /* Nav */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid var(--border);
+            background: rgba(3, 3, 5, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo-img {
+            width: 32px;
+            height: 32px;
+            animation: logoPulse 4s infinite;
+        }
+        @keyframes logoPulse { 0%, 100% { filter: drop-shadow(0 0 5px var(--cyan)); } 50% { filter: drop-shadow(0 0 15px var(--cyan)); } }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+        .logo-text span { color: var(--text-muted); font-weight: 400; text-transform: lowercase; margin-left: -2px; }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--cyan);
+            text-shadow: 0 0 10px var(--glow-cyan);
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-family: var(--mono);
+            letter-spacing: 0.5px;
+        }
+        .back-link:hover { color: var(--text-main); }
+
+        /* Hero */
+        header {
+            padding: 100px 5% 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            font-family: var(--mono);
+            color: var(--cyan);
+            background: rgba(0, 255, 204, 0.05);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1.2rem;
+            display: inline-block;
+            border: 1px solid rgba(0, 255, 204, 0.2);
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -1.5px;
+            max-width: 700px;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.2s forwards;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.8s forwards;
+        }
+
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+        /* JSON Config Box - Frosted Glass */
+        .config-box {
+            background: rgba(10, 10, 15, 0.7);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: var(--mono);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            backdrop-filter: blur(15px);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInConfig 0.8s 1.2s forwards;
+        }
+        @keyframes fadeInConfig { to { opacity: 1; transform: translateY(0); } }
+        
+        .config-box .key { color: var(--text-main); }
+        .config-box .string { color: var(--blue); }
+        .config-box .boolean { color: var(--cyan); }
+        .config-box .comment { color: #555560; }
+
+        /* Grid with Glass Hover */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto 100px;
+            padding: 0 5%;
+            opacity: 0;
+            animation: terminalLoad 1s 2.0s forwards;
+        }
+        @keyframes terminalLoad { to { opacity: 1; transform: translateY(0); } }
+
+        .card {
+            padding: 2.5rem 2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-left: 4px solid var(--border);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 255, 204, 0.3);
+            border-left-color: var(--cyan);
+            background: rgba(15, 15, 20, 0.75);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 255, 204, 0.1);
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-list li {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '>>';
+            position: absolute;
+            left: 0;
+            color: var(--cyan);
+            font-family: var(--mono);
+            font-size: 0.8rem;
+        }
+        
+        .highlight-text {
+            color: var(--text-main);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-family: var(--mono);
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <img src="logo_aperture.png" alt="OMNIS" class="logo-img">
+            <div class="logo-text">OMNIS<span>Labs</span>_</div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="back-link">Architecture Module</a>
+            <a href="bots.html" class="active">Bot Systems</a>
+            <a href="mailto:info@omnislabs.online" class="back-link">sys.contact</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="badge">Module: Scriptable Automation</div>
+        <h1>Intelligent Bot Systems.</h1>
+        <p class="subtitle">High-performance, secure automation bots built on distributed neural architectures for modern e-commerce and workflow optimization.</p>
+        
+        <div class="config-box">
+            {<br>
+            &nbsp;&nbsp;<span class="key">"module"</span>: <span class="string">"OmnisBot_Deployment"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"version"</span>: <span class="string">"3.1.2_Neural"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"status"</span>: <span class="boolean">true</span>, <span class="comment">// Fully Operational</span><br>
+            &nbsp;&nbsp;<span class="key">"gateway_id"</span>: <span class="string">"OMNIS-GW-SEC-77"</span><br>
+            }
+        </div>
+    </header>
+
+    <section class="grid">
+        <div class="card">
+            <h3>Telegram Business API</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Highly personalized engagement bots built for scale, tailored for community and data management.</p>
+            <ul class="feature-list">
+                <li>Distributed data routing</li>
+                <li>Holographic broadcast systems</li>
+                <li>Quantum-safe data aggregation</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Retail & E-commerce</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Turn any messaging interface into a structured, automated storefront with natural language processing.</p>
+            <ul class="feature-list">
+                <li>Dynamic, vectorized catalogs</li>
+                <li>Automated order parsing</li>
+                <li class="highlight-text">Native PayHere Integration v4</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Neural Workflow Automation</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">System-level tools that eliminate repetitive operational tasks using learned patterns.</p>
+            <ul class="feature-list">
+                <li>Distributed system monitoring</li>
+                <li>Third-party API bridging</li>
+                <li>Adaptive task scheduling</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>OMNIS LABS © 2026 // SECURE CONNECTION ESTABLISHED</p>
+    </footer>
+
+</body>
+</html>
